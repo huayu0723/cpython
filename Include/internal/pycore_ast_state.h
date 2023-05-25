@@ -17,6 +17,8 @@ struct ast_state {
     PyObject *AST_type;
     PyObject *Add_singleton;
     PyObject *Add_type;
+    PyObject *AlE_singleton;
+    PyObject *AlE_type;
     PyObject *And_singleton;
     PyObject *And_type;
     PyObject *AnnAssign_type;

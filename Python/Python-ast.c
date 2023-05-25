@@ -30,6 +30,8 @@ void _PyAST_Fini(PyInterpreterState *interp)
     Py_CLEAR(state->AST_type);
     Py_CLEAR(state->Add_singleton);
     Py_CLEAR(state->Add_type);
+    Py_CLEAR(state->AlE_singleton);
+    Py_CLEAR(state->AlE_type);
     Py_CLEAR(state->And_singleton);
     Py_CLEAR(state->And_type);
     Py_CLEAR(state->AnnAssign_type);
@@ -1635,7 +1637,7 @@ init_types(struct ast_state *state)
                                               NULL, NULL);
     if (!state->USub_singleton) return 0;
     state->cmpop_type = make_type(state, "cmpop", state->AST_type, NULL, 0,
-        "cmpop = Eq | NotEq | Lt | LtE | Gt | GtE | Is | IsNot | In | NotIn");
+        "cmpop = Eq | NotEq | Lt | LtE | Gt | GtE | AlE | Is | IsNot | In | NotIn");
     if (!state->cmpop_type) return 0;
     if (!add_attributes(state, state->cmpop_type, NULL, 0)) return 0;
     state->Eq_type = make_type(state, "Eq", state->cmpop_type, NULL, 0,
@@ -1674,6 +1676,12 @@ init_types(struct ast_state *state)
     state->GtE_singleton = PyType_GenericNew((PyTypeObject *)state->GtE_type,
                                              NULL, NULL);
     if (!state->GtE_singleton) return 0;
+    state->AlE_type = make_type(state, "AlE", state->cmpop_type, NULL, 0,
+        "AlE");
+    if (!state->AlE_type) return 0;
+    state->AlE_singleton = PyType_GenericNew((PyTypeObject *)state->AlE_type,
+                                             NULL, NULL);
+    if (!state->AlE_singleton) return 0;
     state->Is_type = make_type(state, "Is", state->cmpop_type, NULL, 0,
         "Is");
     if (!state->Is_type) return 0;
@@ -4815,6 +4823,8 @@ PyObject* ast2obj_cmpop(struct ast_state *state, cmpop_ty o)
             return Py_NewRef(state->Gt_singleton);
         case GtE:
             return Py_NewRef(state->GtE_singleton);
+        case AlE:
+            return Py_NewRef(state->AlE_singleton);
         case Is:
             return Py_NewRef(state->Is_singleton);
         case IsNot:
@@ -10091,6 +10101,14 @@ obj2ast_cmpop(struct ast_state *state, PyObject* obj, cmpop_ty* out, PyArena*
         *out = GtE;
         return 0;
     }
+    isinstance = PyObject_IsInstance(obj, state->AlE_type);
+    if (isinstance == -1) {
+        return 1;
+    }
+    if (isinstance) {
+        *out = AlE;
+        return 0;
+    }
     isinstance = PyObject_IsInstance(obj, state->Is_type);
     if (isinstance == -1) {
         return 1;
@@ -12108,6 +12126,9 @@ astmodule_exec(PyObject *m)
         return -1;
     }
     if (PyModule_AddObjectRef(m, "GtE", state->GtE_type) < 0) {
+        return -1;
+    }
+    if (PyModule_AddObjectRef(m, "AlE", state->AlE_type) < 0) {
         return -1;
     }
     if (PyModule_AddObjectRef(m, "Is", state->Is_type) < 0) {
