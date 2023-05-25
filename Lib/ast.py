@@ -1468,6 +1468,7 @@ class _Unparser(NodeVisitor):
         "LtE": "<=",
         "Gt": ">",
         "GtE": ">=",
+        "AlE": "~=",
         "Is": "is",
         "IsNot": "is not",
         "In": "in",

@@ -473,6 +473,7 @@ Expressions
            LtE
            Gt
            GtE
+           AlE
            Is
            IsNot
            In

@@ -89,6 +89,7 @@ fold_unaryop(expr_ty node, PyArena *arena, _PyASTOptimizeState *state)
             case LtE:
             case Gt:
             case GtE:
+            case AlE:
                 op = 0; // The AST enums leave "0" free as an "unused" marker
                 break;
             // No default case, so the compiler will emit a warning if new

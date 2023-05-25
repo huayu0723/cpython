@@ -496,6 +496,9 @@ append_ast_compare(_PyUnicodeWriter *writer, expr_ty e, int level)
         case GtE:
             op = " >= ";
             break;
+        case AlE:
+            op = " ~= ";
+            break;
         case Is:
             op = " is ";
             break;

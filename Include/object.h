@@ -850,6 +850,7 @@ PyAPI_DATA(PyObject) _Py_NotImplementedStruct; /* Don't use this directly */
 #define Py_NE 3
 #define Py_GT 4
 #define Py_GE 5
+#define Py_ALE 6
 
 #if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x030A0000
 /* Result of calling PyIter_Send */
@@ -874,6 +875,7 @@ typedef enum {
         case Py_GT: if ((val1) > (val2)) Py_RETURN_TRUE; Py_RETURN_FALSE;   \
         case Py_LE: if ((val1) <= (val2)) Py_RETURN_TRUE; Py_RETURN_FALSE;  \
         case Py_GE: if ((val1) >= (val2)) Py_RETURN_TRUE; Py_RETURN_FALSE;  \
+        case Py_ALE: if ((val1) == (val2)) Py_RETURN_TRUE; Py_RETURN_FALSE;  \
         default:                                                            \
             Py_UNREACHABLE();                                               \
         }                                                                   \

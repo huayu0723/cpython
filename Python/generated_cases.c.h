@@ -2687,7 +2687,7 @@
             STAT_INC(COMPARE_OP, deferred);
             DECREMENT_ADAPTIVE_COUNTER(cache->counter);
             #endif  /* ENABLE_SPECIALIZATION */
-            assert((oparg >> 4) <= Py_GE);
+            assert((oparg >> 4) <= Py_ALE);
             res = PyObject_RichCompare(left, right, oparg>>4);
             #line 2693 "Python/generated_cases.c.h"
             Py_DECREF(left);

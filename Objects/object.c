@@ -767,9 +767,9 @@ done:
 */
 
 /* Map rich comparison operators to their swapped version, e.g. LT <--> GT */
-int _Py_SwappedOp[] = {Py_GT, Py_GE, Py_EQ, Py_NE, Py_LT, Py_LE};
+int _Py_SwappedOp[] = {Py_GT, Py_GE, Py_EQ, Py_NE, Py_LT, Py_LE, Py_ALE};
 
-static const char * const opstrings[] = {"<", "<=", "==", "!=", ">", ">="};
+static const char * const opstrings[] = {"<", "<=", "==", "!=", ">", ">=", "~="};
 
 /* Perform a rich comparison, raising TypeError when the requested comparison
    operator is not supported. */
@@ -829,7 +829,7 @@ PyObject_RichCompare(PyObject *v, PyObject *w, int op)
 {
     PyThreadState *tstate = _PyThreadState_GET();
 
-    assert(Py_LT <= op && op <= Py_GE);
+    assert(Py_LT <= op && op <= Py_ALE);
     if (v == NULL || w == NULL) {
         if (!_PyErr_Occurred(tstate)) {
             PyErr_BadInternalCall();
